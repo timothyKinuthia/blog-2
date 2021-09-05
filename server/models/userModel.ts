@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-
 interface UserI extends mongoose.Document {
-    name: String,
-    account: String,
-    password: string,
-    avatar: String,
-    type: string
+  name: String;
+  account: String;
+  password: string;
+  avatar: String;
+  type: string;
+  isActivated: boolean;
 }
 
 const userSchema = new mongoose.Schema(
@@ -27,11 +27,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
       trim: true,
-      select: false
     },
     role: {
       type: String,
-      default: "subscriber"
+      default: "subscriber",
     },
     avatar: {
       type: String,
@@ -40,8 +39,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "normal",
     },
+    isActivated: {
+      default: false
+    },
   },
   { timestamps: true }
 );
 
-export default mongoose.model <UserI> ("User", userSchema);
+export default mongoose.model<UserI>("User", userSchema);

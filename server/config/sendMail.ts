@@ -1,57 +1,38 @@
-import nodemailer from "nodemailer"
-import { OAuth2Client } from 'google-auth-library';
+import nodemailer from "nodemailer";
 
-const OAUTH_PLAYGROUND = "https://developers.google.com/oauthplayground";
+const sendEmail = (to: string, url: string, txt: string) => {
+  const transporter = nodemailer.createTransport({
+    service: process.env.EMAIL_SERVICE,
+    auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
 
-const CLIENT_ID = `${process.env.MAil_CLIENT_ID}`;
-const CLIENT_SECRET = `${process.env.MAIL_CLIENT_SECRET}`;
-const REFRESH_TOKEN = `${process.env.MAIL_REFRESH_TOKEN}`;
-const SENDER_MAIL = `${process.env.SENDER_EMAIL_ADDRESS}`;
+  const mailOptions = {
+    from: process.env.EMAIL_FROM,
+    to,
+    subject: "Blog App",
+    html: `
+        <div style="max-width: 700px; margin:auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%">
+            <h2 style="text-align: center; text-transform: uppercase; color: teal;">Welcome to my blog app</h2>
+            <p>Congratulation you are one step away from using my blog. Click the button below to validate your email address.</p>
+            <a href=${url} style="background: crimson; text-decoration: none; color: white; padding: 10px 20px; margin: 10px 0; display: inline-block;">
+            ${txt}
+            </a>
+            <p>
+            If the button doesn't work for any reason, you can also click the link below:</p>
+            <div>${url}</div>
+        </div>`,
+  };
 
-//send Mail
-const sendEmail = async (to: string, url: string, txt: string) => {
-    const oAuth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, OAUTH_PLAYGROUND);
-
-    oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-
-    try {
-        const access_token = await oAuth2Client.getAccessToken();
-        const transport = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                type: "OAuth2",
-                user: SENDER_MAIL,
-                clientId: CLIENT_ID,
-                clientSecret: CLIENT_SECRET,
-                refreshToken: REFRESH_TOKEN,
-                accessToken: `${access_token}`
-            }
-        });
-
-        const mailOptions = {
-            from: SENDER_MAIL,
-            to,
-            subject: "BlogApp",
-            html: `
-            <div style="max-width: 700px; margin:auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%">
-                <h2 style="text-align: center; text-transform: uppercase; color: teal;">Welcome to my blog app</h2>
-                <p>Congratulation you are one step away from using my blog. Click the button below to validate your email address.</p>
-                <a href=${url} style="background: crimson; text-decoration: none; color: white; padding: 10px 20px; margin: 10px 0; display: inline-block;">
-                ${txt}
-                </a>
-                <p>
-                If the button doesn't work for any reason, you can also click the link below:</p>
-                <div>${url}</div>
-            </div>`
-        };
-
-        const result = await transport.sendMail(mailOptions);
-
-        return result;
-
-     } catch (err) {
-        console.log(err);
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      //console.log(info)
     }
-}
+  });
+};
 
 export default sendEmail;
