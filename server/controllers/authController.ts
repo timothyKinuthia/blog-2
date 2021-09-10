@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 //modules
-import User from "../models/userModel";
-import { generateActiveToken } from "./generateToken";
+import User, { UserI } from "../models/userModel";
+import { generateActiveToken, generateAccessToken, generateRefreshToken } from "./generateToken";
 import sendEmail from "../config/sendMail";
 import { sendSms } from "../config/sendSMS";
 import { DecodedUser } from "../config/interface";
@@ -78,6 +78,88 @@ const authCtr = {
       }
     }
   },
+  login: async(req: Request, res: Response) => {
+    try {
+      const { account, password } = req.body;
+      
+      const user = await User.findOne({ account });
+
+      //check if user exist
+      if (!user) {
+        return res.status(400).json({ msg: "This user doesn't exist." });
+      };
+
+      loginUser(user, password, res);
+
+    } catch (err) {
+      res.status(500).json({ msg: "server error!" });
+  }
+  },
+  logout: (req: Request, res: Response) => {
+    try {
+      res.clearCookie("refreshToken", { path: "/api/refresh_token" });
+      res.json({ msg: "Logged out" });
+     } catch (err) {
+      res.status(500).json({ msg: "server error!" });
+    }
+  },
+  refreshToken: async (req: Request, res: Response) => {
+    try {
+      const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+      return res.status(401).json({ msg: "You are not logged in"});
+      };
+      
+    const decoded = await <DecodedUser>jwt.verify(
+      refreshToken,
+      `${process.env.REFRESH_TOKEN_SECRET}`
+      );
+
+      if (!decoded) {
+        return res.status(401).json({msg: "Please login"})
+      }
+      
+      const user = await User.findById(decoded.id).select("-password");
+
+      if (!user) {
+        return res.status(401).json({ msg: "This user does not exist!"});
+      };
+
+      const accessToken = await generateRefreshToken(user._id);
+
+      res.status(200).json({ msg: "success", user });
+      
+
+    } catch (err) {
+      res.status(500).json({ msg: "server error!" });
+    };
+
+  }
+};
+
+const loginUser = async (user: UserI, password: string, res: Response) => {
+
+  const isMatch = await comparePassword(user, password);
+
+  if (!isMatch) {
+    return res.status(404).json({ msg: "Invalid credentials!" });
+  }
+  const accessToken = await generateAccessToken(user._id);
+  const refreshToken = await generateRefreshToken(user._id);
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    path: "/api/refresh_token",
+    maxAge: 30 * 24 * 60 * 60 * 1000
+  });
+
+  res.status(200).json({ msg: "Login success", token:accessToken, user: {...user._doc, password: ''} });
+
+}
+
+const comparePassword = async (user: UserI, password: string) => {
+  return await bcrypt.compare(password, user.password);
 };
 
 export default authCtr;

@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
-interface UserI extends mongoose.Document {
-  name: String;
-  account: String;
+export interface UserI extends mongoose.Document {
+  name: string;
+  account: string;
   password: string;
-  avatar: String;
+  avatar: string;
   type: string;
   isActivated: boolean;
+  _doc: object;
 }
 
 const userSchema = new mongoose.Schema(
@@ -37,9 +38,10 @@ const userSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      default: "normal",
+      default: "register",
     },
     isActivated: {
+      type: Boolean,
       default: false
     },
   },
