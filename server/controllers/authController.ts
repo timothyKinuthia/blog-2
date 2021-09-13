@@ -154,7 +154,7 @@ const loginUser = async (user: UserI, password: string, res: Response) => {
     maxAge: 30 * 24 * 60 * 60 * 1000
   });
 
-  res.status(200).json({ msg: "Login success", token:accessToken, user: {...user._doc, password: ''} });
+  res.status(200).json({ token:accessToken, user: {...user._doc, password: ''} });
 
 }
 

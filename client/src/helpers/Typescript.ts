@@ -3,7 +3,3 @@ export interface IParams {
     slug: string;
 };
 
-export interface IUserLogin {
-    account: string;
-    password: string;
-}
