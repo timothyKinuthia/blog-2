@@ -2,24 +2,31 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 
+//
+import { loginUser } from "../../store/actions/action-creators/authActions";
 
 const inputStyles =
   "w-full bg-gray-100 focus:bg-gray-50 focus:outline-none border border-gray-200 py-2 px-4 text-sm sm:text-base";
 
 const LoginForm = () => {
+  //state
   const [input, setInput] = useState({
     account: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
 
+  //redux
+  const dispatch = useDispatch();
+
   const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInput({ ...input, [evt.target.name]: evt.target.value });
     };
     
-    const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-        evt.preventDefault();
-    }
+  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(loginUser(input));
+  };
 
   return (
     <form onSubmit={handleSubmit}
