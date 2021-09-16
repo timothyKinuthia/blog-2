@@ -57,12 +57,12 @@ const LoginForm = () => {
           className={inputStyles}
           type={showPassword ? "text" : "password"}
           name="password"
-          placeholder="Enter your password"
+          placeholder="Password"
           value={input.password}
           onChange={handleInputChange}
         />
       </div>
-          <button className={`w-full text-sm sm:text-base bg-red-500 hover:bg-red-400 text-white border py-2 px-4 font-semibold ${(!input.account || !input.password) ? "pointer-events-none" : ""}`}>
+          <button className={`w-full text-sm sm:text-base bg-ro hover:bg-opacity-90 text-white border py-2 px-4 font-semibold ${(!input.account || !input.password) ? "pointer-events-none" : ""}`}>
         Login
       </button>
     </form>

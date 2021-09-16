@@ -7,9 +7,14 @@ interface UserLogin {
     payload?: IAUTH
 };
 
+interface UserRegister {
+    type: AuthTypes.LOGIN_USER;
+    payload?: IAUTH
+};
+
 interface Alert {
     type: GlobalTypes.ALERT
     payload?: IAlert
 }
 
-export type Action = UserLogin | Alert;
+export type Action = UserLogin | UserRegister | Alert;

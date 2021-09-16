@@ -3,6 +3,11 @@ export interface IUserLogin {
     password: string;
 };
 
+export interface IUserRegister extends IUserLogin {
+    name: string;
+    passwordConfirm: string;
+};
+
 export interface IUserData extends IUserLogin {
     role: string;
     type: string;

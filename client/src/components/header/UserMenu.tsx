@@ -11,7 +11,7 @@ export default function UserMenu() {
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex justify-between items-center w-full px-2 py-1 font-medium sm:text-lg text-gray-400 rounded-md hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-            <span className="h-8 w-8 bg-red-600 rounded-full"></span>
+            <span className="h-8 w-8 bg-ro rounded-full"></span>
             <span className="ml-1 mt-1 text-xl"><IoMdArrowDropdown/></span>
           </Menu.Button>
         </div>

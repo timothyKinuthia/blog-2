@@ -5,6 +5,14 @@ module.exports = {
     extend: {
       fontFamily: {
         ds: "'Dancing Script', cursive"
+      },
+      colors: {
+        orange: "#DD6E0F",
+        ro: "#ff4500",
+        neon: "#ff1818",
+        red: "#ff0000",
+        green: "#41ff07",
+        dg: "#3ac900"
       }
     },
   },
