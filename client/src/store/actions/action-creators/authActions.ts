@@ -66,3 +66,17 @@ export const refreshToken = () => async (dispatch: Dispatch<Action>) => {
     }
   };
 };
+
+export const logout = () => async (dispatch: Dispatch<Action>) => {
+  
+  try {
+    await getDataApi("logout");
+    localStorage.removeItem("logged");
+
+  } catch (err: any) {
+    dispatch({
+      type: GlobalTypes.ALERT,
+      payload: { errors: err.response.data.msg },
+    });
+  }
+}

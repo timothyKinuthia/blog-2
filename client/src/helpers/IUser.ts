@@ -14,6 +14,7 @@ export interface IUserData extends IUserLogin {
     isActivated: boolean;
     _id: string;
     name: string;
+    avatar: string;
     createdAt: string;
     updatedAt: string;
 };

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTypedSelector } from "../../hooks/useTypeSelector";
 
 //imports
 import UserMenu from "./UserMenu";
@@ -7,7 +8,14 @@ import UserMenu from "./UserMenu";
 const Header = () => {
   const [search, setSearch] = useState("");
 
-  const links = [{ name: "Login", path: "/login" }];
+  //redux
+  const { auth } = useTypedSelector((state) => ({ ...state }));
+
+  const bflinks = [{ name: "Login/Signup", path: "/login" }];
+
+  const aflinks = [{ name: "Create Blog", path: "/create_blog" }];
+
+  const navLinks = auth?.token ? aflinks : bflinks;
 
   const { pathname } = useLocation();
 
@@ -31,7 +39,7 @@ const Header = () => {
             value={search}
             onChange={(evt) => setSearch(evt.target.value)}
           />
-          {links.map((val, i) => (
+          {navLinks.map((val, i) => (
             <Link
               to={val.path}
               key={i}
@@ -42,7 +50,7 @@ const Header = () => {
               {val.name}
             </Link>
           ))}
-          <UserMenu />
+          {auth?.token && <UserMenu avatar={auth.user.avatar} />}
         </div>
       </div>
     </div>
