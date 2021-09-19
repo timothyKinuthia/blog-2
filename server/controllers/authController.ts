@@ -59,7 +59,6 @@ const authCtr = {
         `${process.env.ACTIVE_TOKEN_SECRET}`
       );
 
-
       const { id } = decoded;
 
       const user = await User.findOne({ _id: id });
@@ -74,6 +73,7 @@ const authCtr = {
 
     } catch (err: any) {
       if (err.message === "jwt expired") {
+
         res.status(400).json({msg: "Your token has expired, please try again."})
       }
     }
@@ -128,7 +128,7 @@ const authCtr = {
 
       const accessToken = await generateRefreshToken(user._id);
 
-      res.status(200).json({ msg: "success", user });
+      res.status(200).json({ token: accessToken, user });
       
 
     } catch (err) {
@@ -154,7 +154,7 @@ const loginUser = async (user: UserI, password: string, res: Response) => {
     maxAge: 30 * 24 * 60 * 60 * 1000
   });
 
-  res.status(200).json({ token:accessToken, user: {...user._doc, password: ''} });
+  res.status(200).json({ token: accessToken, user: {...user._doc, password: ''} });
 
 }
 

@@ -8,13 +8,18 @@ interface UserLogin {
 };
 
 interface UserRegister {
-    type: AuthTypes.LOGIN_USER;
+    type: AuthTypes.REGISTER;
     payload?: IAUTH
 };
+
+interface RefreshToken {
+    type: AuthTypes.REFRESH_TOKEN;
+    payload?: IAUTH
+}
 
 interface Alert {
     type: GlobalTypes.ALERT
     payload?: IAlert
 }
 
-export type Action = UserLogin | UserRegister | Alert;
+export type Action = UserLogin | UserRegister | RefreshToken | Alert;

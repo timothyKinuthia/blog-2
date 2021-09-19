@@ -16,7 +16,6 @@ export interface IUserData extends IUserLogin {
     name: string;
     createdAt: string;
     updatedAt: string;
-    __v: number;
 };
 
 export interface IAUTH extends IUserData {

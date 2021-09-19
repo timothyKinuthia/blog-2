@@ -7,3 +7,11 @@ export const postDataApi = async (url: string, post: object, token?: string) => 
         }
     })
 };
+
+export const getDataApi = async (url: string, token?: string) => {
+    return await axios.get(`/api/${url}`, {
+        headers: {
+            Authorization: token
+        }
+    })
+};

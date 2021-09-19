@@ -1,14 +1,30 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useTypedSelector } from "../hooks/useTypeSelector";
 
 import LoginForm from "../components/auth/LoginForm";
 import LoginSMS from "../components/auth/LoginSMS";
+import { GlobalTypes } from '../store/actions/action-types/global';
 
 const Login = () => {
   const [isSMS, setIsSMS] = useState(false);
 
+  //react-router-dom
+  const history = useHistory();
+
+  //redux
+  const dispatch = useDispatch();
+  const { auth } = useTypedSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    if (auth?.token) {
+      history.push("/")
+    }
+  }, [auth?.token, history]);
+
   return (
-    <div className="mt-6 flex flex-col items-center">
+    <div onClick={() => dispatch({type: GlobalTypes.ALERT, payload: {}})} className="mt-6 flex flex-col items-center">
       <div className="w-full lg:w-1/2 xl:w-1/3 px-8 max-w-md">
         <h2 className="sm:text-3xl text-center font-ds font-bold">Login</h2>
         {isSMS ? <LoginSMS /> : <LoginForm />}

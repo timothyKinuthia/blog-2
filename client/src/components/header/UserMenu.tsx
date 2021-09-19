@@ -8,7 +8,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 export default function UserMenu() {
   return (
     <div className="">
-      <Menu as="div" className="relative inline-block text-left">
+      <Menu as="div" className="relative z-50 inline-block text-left">
         <div>
           <Menu.Button className="inline-flex justify-between items-center w-full px-2 py-1 font-medium sm:text-lg text-gray-400 rounded-md hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             <span className="h-8 w-8 bg-ro rounded-full"></span>
