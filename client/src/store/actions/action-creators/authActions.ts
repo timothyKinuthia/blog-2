@@ -51,6 +51,19 @@ export const registerUser =
     }
   };
 
+export const googleLogin = (token: string) => async (dispatch: Dispatch<Action>) => {
+  try {
+    const res = await postDataApi("google_login", { id_token: token });
+    dispatch({ type: AuthTypes.GOOGLE_LOGIN, payload: res.data });
+    localStorage.setItem("logged", "true");
+  } catch (err: any) {
+    dispatch({
+      type: GlobalTypes.ALERT,
+      payload: { errors: err.response.data.msg },
+    });
+    }
+  }
+
 export const refreshToken = () => async (dispatch: Dispatch<Action>) => {
   if (localStorage.getItem("logged")) {
     try {
@@ -72,7 +85,7 @@ export const logout = () => async (dispatch: Dispatch<Action>) => {
   try {
     await getDataApi("logout");
     localStorage.removeItem("logged");
-
+    window.location.pathname = "/";
   } catch (err: any) {
     dispatch({
       type: GlobalTypes.ALERT,

@@ -5,6 +5,7 @@ import { useTypedSelector } from "../hooks/useTypeSelector";
 
 import LoginForm from "../components/auth/LoginForm";
 import LoginSMS from "../components/auth/LoginSMS";
+import SocialLogin from "../components/auth/SocialLogin";
 import { GlobalTypes } from '../store/actions/action-types/global';
 
 const Login = () => {
@@ -27,6 +28,7 @@ const Login = () => {
     <div onClick={() => dispatch({type: GlobalTypes.ALERT, payload: {}})} className="mt-6 flex flex-col items-center">
       <div className="w-full lg:w-1/2 xl:w-1/3 px-8 max-w-md">
         <h2 className="sm:text-3xl text-center font-ds font-bold">Login</h2>
+        <div className="mt-4"><SocialLogin/></div>
         {isSMS ? <LoginSMS /> : <LoginForm />}
       </div>
       <div className="w-full lg:w-1/2 xl:w-1/3 px-8 max-w-md flex flex-col space-y-4">

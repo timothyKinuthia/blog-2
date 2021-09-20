@@ -17,9 +17,14 @@ interface RefreshToken {
     payload?: IAUTH
 }
 
+interface GoogleLogin {
+    type: AuthTypes.GOOGLE_LOGIN;
+    payload?: IAUTH
+};
+
 interface Alert {
     type: GlobalTypes.ALERT
     payload?: IAlert
 }
 
-export type Action = UserLogin | UserRegister | RefreshToken | Alert;
+export type Action = UserLogin | UserRegister | GoogleLogin | RefreshToken | Alert;

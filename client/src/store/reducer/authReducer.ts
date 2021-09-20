@@ -24,6 +24,8 @@ const authReducer = (state = initialState, action: Action) => {
       return action.payload;
     case AuthTypes.REGISTER:
       return action.payload;
+    case AuthTypes.GOOGLE_LOGIN:
+      return action.payload;
     case AuthTypes.REFRESH_TOKEN:
       return action.payload;
     default:
