@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
+//import nodeFetch from 'node-fetch';
 
 //modules
 import User, { UserI } from "../models/userModel";
@@ -11,7 +12,7 @@ import {
   generateRefreshToken,
 } from "./generateToken";
 import sendEmail from "../config/sendMail";
-import { sendSms } from "../config/sendSMS";
+import { sendSms, smsOTP } from "../config/sendSMS";
 import { DecodedUser, IGooglePayload, IUserParams } from "../config/interface";
 import { isValidEmail, isValidPhone } from "../middleware/validators";
 
@@ -143,6 +144,31 @@ const authCtr = {
         registerUser(user, res);
       }
     } catch (err) {
+      res.status(500).json({ msg: "server error!" });
+    }
+  },
+  facebookLogin: async (req: Request, res: Response) => {
+    try {
+
+      const { accessToken, userID } = req.body;
+
+      const URL = `https://graph.facebook.com/v3.0/${userID}/?fields=id,name,email,picture&access_token=${accessToken}`;
+
+      // const res = await nodeFetch(URL);
+      // const data = await res.json();
+
+      // console.log(data);
+
+     } catch (err) {
+      res.status(500).json({ msg: "server error!" });
+    }
+  },
+  loginSMS: async (req: Request, res: Response) => {
+    try {
+      const { phone } = req.body;
+      const data = await smsOTP(phone, 'sms');
+      res.status(200).json({ data });
+     } catch (err) {
       res.status(500).json({ msg: "server error!" });
     }
   },

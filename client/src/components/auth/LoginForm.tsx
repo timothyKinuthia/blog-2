@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
+import Loader from "react-loader-spinner";
 
 //
 import { loginUser } from "../../store/actions/action-creators/authActions";
+import { useTypedSelector } from "../../hooks/useTypeSelector";
 
 const inputStyles =
   "w-full bg-gray-100 focus:bg-gray-50 focus:outline-none border border-gray-200 py-2 px-4 text-sm sm:text-base";
@@ -18,6 +20,7 @@ const LoginForm = () => {
 
   //redux
   const dispatch = useDispatch();
+  const { alert } = useTypedSelector((state) => ({ ...state }));
 
   const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInput({ ...input, [evt.target.name]: evt.target.value });
@@ -62,8 +65,14 @@ const LoginForm = () => {
           onChange={handleInputChange}
         />
       </div>
-          <button className={`w-full text-sm sm:text-base bg-ro hover:bg-opacity-90 text-white border py-2 px-4 font-semibold ${(!input.account || !input.password) ? "pointer-events-none" : ""}`}>
-        Login
+          <button className={`w-full text-sm sm:text-base flex justify-center bg-ro hover:bg-opacity-90 text-white border py-2 px-4 font-semibold ${(!input.account || !input.password) ? "pointer-events-none" : ""}`}>
+        {alert?.loading ? <Loader
+          type="TailSpin"
+          color="#FFF"
+          height={25}
+          width={25}
+          timeout={30000} //3 secs
+        /> : "Login"}
       </button>
     </form>
   );

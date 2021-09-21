@@ -10,7 +10,7 @@ const Toast: React.FC<ToastProps> = ({ text, title, success }) => {
 
   return (
     <div
-      className={`fixed -mt-2 w-full py-2 text-white ${
+      className={`fixed -mt-5 right-2 py-1 text-white ${
         success ? "bg-green" : "bg-ro"
       } transition border-2 ${success ? "" : "border-red"}`}
     >
@@ -21,7 +21,7 @@ const Toast: React.FC<ToastProps> = ({ text, title, success }) => {
           {title}
         </h3>
       </div>
-      <div className="py-2 px-4 text-center capitalize">
+      <div className="py-1 px-4 text-center capitalize">
         <span>{text}</span>
       </div>
     </div>

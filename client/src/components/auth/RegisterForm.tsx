@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
+import Loader from "react-loader-spinner";
 
 //
 import { registerUser } from "../../store/actions/action-creators/authActions";
@@ -105,7 +106,7 @@ const RegisterForm = () => {
         />
       </div>
       <button
-        className={`w-full text-sm sm:text-base bg-ro hover:bg-opacity-90 text-white border py-2 px-4 font-semibold ${
+        className={`w-full flex justify-center text-sm sm:text-base bg-ro hover:bg-opacity-90 text-white border py-2 px-4 font-semibold ${
           !input.name ||
           !input.account ||
           !input.password ||
@@ -115,7 +116,13 @@ const RegisterForm = () => {
             : ""
         }`}
       >
-        Signup
+        {alert?.loading ? <Loader
+          type="TailSpin"
+          color="#FFF"
+          height={25}
+          width={25}
+          timeout={30000} //3 secs
+        /> : "Signup"}
       </button>
     </form>
   );
